@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--配置dao-->
+    <bean id="userDaoBean" class="com.itheima.dao.impl.UserDaoImpl"></bean>
+    <!--配置service-->
+   <!-- <bean id="userService" class="com.itheima.bean.UserServiceImpl">
+        &lt;!&ndash;让Spring从容器里找到userDaoBean，注入给UserServiceImpl的userDao属性&ndash;&gt;
+        <property name="userDao" ref="userDaoBean"/>
+    </bean>-->
+
+    <!--
+    依赖注入的三种方式：
+    1. 通过属性注入 set方法注入
+        bean里的依赖项，要有set方法
+        在xml里使用<property>标签注入需要的值
+
+        property标签：
+            name：要注入数据的属性名称
+            ref：用于注入其它bean对象
+            value：用于注入简单值（8种基本数据类型和String）
+
+       好处：灵活。
+         如果某些依赖项并非强制的，可以使用set方法注入（属性注入）
+       坏处：
+         如果某些依赖是强制性必须有，如果没有就会报错的：set方法如果不注入，Spring也不报错，只是运行时报错
+
+    2. 通过构造方法注入
+        bean里要有构造方法。构造方法里每个构造参数，是一个依赖项
+        使用constructor-arg标签注入构造参数值
+            name：构造参数名称
+            index：构造参数的索引
+
+            value：用于注入简单值
+            ref：用于注入其它bean对象
+
+
+        如果是强制性必须有的，使用构造方法注入；非强制性可有可无的，使用set方法注入
+
+    3. 通过p名称空间注入：本质还是set方法注入，只是xml配置时的写法不同
+        1. bean里的依赖项，必须有set方法
+        2. 在xml里引入p名称空间
+        3. 在bean标签上
+            <bean id="" class="" p:属性名="简单值" p:属性名-ref="其它bean对象">
+    -->
+    <!--<bean id="userService" class="com.itheima.bean.UserServiceImpl">
+        <property name="userDao" ref="userDaoBean"/>
+        <property name="abc" value="张三"/>
+    </bean>-->
+
+    <!--<bean id="userService" class="com.itheima.bean.UserServiceImpl">
+        &lt;!&ndash;<constructor-arg name="userDao" ref="userDaoBean"/>&ndash;&gt;
+        &lt;!&ndash;<constructor-arg index="0" ref="userDaoBean"/>&ndash;&gt;
+        &lt;!&ndash;<constructor-arg type="com.itheima.dao.UserDao" ref="userDaoBean"/>&ndash;&gt;
+
+        <constructor-arg name="abc" value="李四"/>
+    </bean>-->
+
+    <!--<bean id="userService" class="com.itheima.bean.UserServiceImpl" p:abc="王五" p:userDao-ref="userDaoBean"></bean>-->
+
+
+    <!--
+    给bean注入复杂数据
+        给数组注入数据，使用array标签
+        给List注入数据，使用list标签
+        给Set注入数据，使用set标签
+        给Map注入数据，使用map标签
+        给Properties注入数据，使用props标签
+
+    注意：相同结构的数据，标签可以互换。
+        所有单列结构的数据，数组、List、Set，可以使用array/list/set中任意一种标签均可
+        所有键值对结构的数据，Map、Properties，可以使用map/props中任意一种标签均可
+    -->
+    <bean id="userService" class="com.itheima.bean.UserServiceImpl">
+        <property name="userDao" ref="userDaoBean"/>
+        <property name="abc" value="123"/>
+
+        <property name="stringArray">
+            <list>
+                <value>arr1</value>
+                <value>arr2</value>
+                <value>arr3</value>
+            </list>
+        </property>
+        <property name="stringList">
+            <list>
+                <value>list1</value>
+                <value>list2</value>
+                <value>list3</value>
+            </list>
+        </property>
+        <property name="stringSet">
+            <set>
+                <value>set1</value>
+                <value>set2</value>
+                <value>set3</value>
+            </set>
+        </property>
+        <property name="stringMap">
+            <!--<map>
+                <entry key="m1" value="M1"/>
+                <entry key="m2" value="M2"/>
+                <entry key="m3" value="M3"/>
+            </map>-->
+            <props>
+                <prop key="m1">m1</prop>
+                <prop key="m2">m2</prop>
+                <prop key="m3">m3</prop>
+            </props>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="p1">P1</prop>
+                <prop key="p2">P2</prop>
+                <prop key="p3">P3</prop>
+            </props>
+        </property>
+    </bean>
+
+
+    <bean id="userServiceXXX" class="com.itheima.bean.UserServiceImpl"></bean>
+</beans>
